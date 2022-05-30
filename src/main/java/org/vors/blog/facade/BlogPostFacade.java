@@ -11,6 +11,7 @@ import org.vors.blog.service.BlogPostService;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Finds or stores blog posts, converting them between DTO and DB entities.
@@ -34,10 +35,20 @@ public class BlogPostFacade {
         this.postToInfoConverter = postToInfoConverter;
     }
 
+    public Optional<PostDetails> findPostById(UUID id) {
+        return blogPostService.findPostById(id)
+                .map(postToDetailsConverter::convert);
+    }
+
     public Optional<PostDetails> findPostByTitle(String title) {
         return blogPostService.findPostByTitle(title)
                 .map(postToDetailsConverter::convert);
     }
+
+    public void deletePostById(UUID id) {
+        blogPostService.deletePostById(id);
+    }
+
 
     public Slice<PostInfo> getPosts(Pageable pageable) {
         return blogPostService.getAllPosts(pageable)

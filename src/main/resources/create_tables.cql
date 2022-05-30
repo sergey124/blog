@@ -2,7 +2,7 @@ CREATE TABLE blogpost(
     id UUID,
     title varchar,
     content varchar,
-    PRIMARY KEY(title, id)
+    PRIMARY KEY(id)
 );
 
 INSERT INTO blogpost(id, title, content) values(uuid(),'First post','Some content');

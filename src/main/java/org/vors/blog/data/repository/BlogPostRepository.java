@@ -5,11 +5,12 @@ import org.springframework.stereotype.Repository;
 import org.vors.blog.data.BlogPost;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Gets blog post entities to and from Cassandra storage.
  */
 @Repository
-public interface BlogPostRepository extends CassandraRepository<BlogPost, String> {
+public interface BlogPostRepository extends CassandraRepository<BlogPost, UUID> {
     Optional<BlogPost> findByTitle(String title);
 }

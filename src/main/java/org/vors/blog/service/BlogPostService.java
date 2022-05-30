@@ -14,7 +14,6 @@ import java.util.UUID;
  */
 @Component
 public class BlogPostService {
-    public static final int PAGE_SIZE = 10;
     private BlogPostRepository blogPostRepository;
 
     public BlogPostService(BlogPostRepository blogPostRepository){
@@ -30,11 +29,19 @@ public class BlogPostService {
         return blogPostRepository.save(post);
     }
 
+    public Optional<BlogPost> findPostById(UUID id) {
+        return blogPostRepository.findById(id);
+    }
+
     public Optional<BlogPost> findPostByTitle(String title) {
         return blogPostRepository.findByTitle(title);
     }
 
     public Slice<BlogPost> getAllPosts(Pageable pageable){
         return blogPostRepository.findAll(pageable);
+    }
+
+    public void deletePostById(UUID id) {
+        blogPostRepository.deleteById(id);
     }
 }

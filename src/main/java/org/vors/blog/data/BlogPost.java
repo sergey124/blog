@@ -1,5 +1,6 @@
 package org.vors.blog.data;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -10,12 +11,12 @@ import java.util.UUID;
 
 @Table
 public class BlogPost {
+    @Id
     @PrimaryKeyColumn(
             name = "id",
-            ordinal = 0,
+            ordinal = 1,
             type = PrimaryKeyType.PARTITIONED,
             ordering = Ordering.DESCENDING)
-
     private UUID id;
     @Column
     private String title;

@@ -9,6 +9,9 @@ import org.vors.blog.dto.PostDetails;
 import org.vors.blog.dto.PostInfo;
 import org.vors.blog.facade.BlogPostFacade;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
@@ -26,10 +29,21 @@ public class BlogPostController {
         return blogPostFacade.createPost(title, content);
     }
 
-    @GetMapping(path = "/{title}")
-    public PostDetails findPostByTitle(@PathVariable String title) {
+    @GetMapping(path = "/{id}")
+    public PostDetails getPostById(@PathVariable UUID id) {
+        return blogPostFacade.findPostById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find resource"));
+    }
+
+    @GetMapping(path = "/find")
+    public PostDetails findPostByTitle(@RequestParam String title) {
         return blogPostFacade.findPostByTitle(title)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find resource"));
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deletePostById(@PathVariable UUID id) {
+        blogPostFacade.deletePostById(id);
     }
 
     @GetMapping
