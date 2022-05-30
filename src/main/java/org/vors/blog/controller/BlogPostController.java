@@ -1,12 +1,13 @@
 package org.vors.blog.controller;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.vors.blog.dto.PostData;
+import org.vors.blog.dto.PostDetails;
+import org.vors.blog.dto.PostInfo;
 import org.vors.blog.facade.BlogPostFacade;
-
-import java.util.Collections;
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -20,19 +21,20 @@ public class BlogPostController {
     }
 
     @PostMapping(path = "/create")
-    public void createPost(String title, String content) {
-        blogPostFacade.saveBlogPost(title, content);
+    @ResponseStatus(HttpStatus.CREATED)
+    public PostDetails createPost(String title, String content) {
+        return blogPostFacade.createPost(title, content);
     }
 
     @GetMapping(path = "/{title}")
-    public PostData findPostByTitle(@PathVariable String title) {
+    public PostDetails findPostByTitle(@PathVariable String title) {
         return blogPostFacade.findPostByTitle(title)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find resource"));
     }
 
     @GetMapping
-    public List<PostData> getAllPosts() {
-        return Collections.emptyList();
+    public Slice<PostInfo> getPosts(Pageable pageable) {
+        return blogPostFacade.getPosts(pageable);
     }
 
 }
