@@ -1,6 +1,12 @@
 # Project
 Simple project for storing and getting blog posts
 
+## Run the app
+- using Java 11
+```shell script
+mvn spring-boot:run
+```
+
 ## Usage after run
 ### Posts
 - create post
