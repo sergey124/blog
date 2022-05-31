@@ -1,4 +1,4 @@
-package org.vors.blog.dto;
+package org.vors.blog.comment.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,8 +6,8 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter @Setter
-public class PostDetails {
+public class CommentInfo {
+    private UUID postId;
     private UUID id;
-    private String title;
     private String content;
 }

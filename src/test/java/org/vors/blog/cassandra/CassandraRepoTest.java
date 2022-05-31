@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.vors.blog.config.CassandraConfig;
-import org.vors.blog.data.BlogPost;
-import org.vors.blog.data.repository.BlogPostRepository;
+import org.vors.blog.post.domain.Post;
+import org.vors.blog.post.repository.PostRepository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,21 +25,21 @@ public class CassandraRepoTest {
     public static final String CONTENT = "# header\n Text.";
 
     @Autowired
-    private BlogPostRepository blogPostRepository;
+    private PostRepository postRepository;
 
     @Test
     public void test() {
-        BlogPost post = new BlogPost();
+        Post post = new Post();
         post.setId(UUID.randomUUID());
         post.setTitle("Hello world");
         post.setContent(CONTENT);
 
-        blogPostRepository.save(post);
+        postRepository.save(post);
 
-        Optional<BlogPost> foundPostOpt = blogPostRepository.findByTitle(TITLE);
+        Optional<Post> foundPostOpt = postRepository.findByTitle(TITLE);
 
         Assert.assertTrue(foundPostOpt.isPresent());
-        BlogPost foundPost = foundPostOpt.get();
+        Post foundPost = foundPostOpt.get();
         Assert.assertEquals(TITLE, foundPost.getTitle());
         Assert.assertEquals(CONTENT, foundPost.getContent());
     }

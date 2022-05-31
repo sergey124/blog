@@ -1,5 +1,7 @@
-package org.vors.blog.data;
+package org.vors.blog.post.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
@@ -10,7 +12,8 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.util.UUID;
 
 @Table
-public class BlogPost {
+@Getter @Setter
+public class Post {
     @Id
     @PrimaryKeyColumn(
             name = "id",
@@ -22,28 +25,4 @@ public class BlogPost {
     private String title;
     @Column
     private String content;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

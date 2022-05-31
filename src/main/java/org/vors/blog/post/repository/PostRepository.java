@@ -1,8 +1,8 @@
-package org.vors.blog.data.repository;
+package org.vors.blog.post.repository;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
-import org.vors.blog.data.BlogPost;
+import org.vors.blog.post.domain.Post;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -11,6 +11,6 @@ import java.util.UUID;
  * Gets blog post entities to and from Cassandra storage.
  */
 @Repository
-public interface BlogPostRepository extends CassandraRepository<BlogPost, UUID> {
-    Optional<BlogPost> findByTitle(String title);
+public interface PostRepository extends CassandraRepository<Post, UUID> {
+    Optional<Post> findByTitle(String title);
 }

@@ -22,15 +22,18 @@ import java.util.List;
 import java.util.Set;
 
 @Configuration
-@EnableCassandraRepositories(basePackages = "org.vors.blog.data.repository")
+@EnableCassandraRepositories(basePackages = {
+        "org.vors.blog.post.repository",
+        "org.vors.blog.comment.repository"
+})
 public class CassandraConfig extends AbstractCassandraConfiguration {
-    public static final String CASSANDRA_ENTITY_PACKAGE = "org.vors.blog.data";
+    public static final String CASSANDRA_ENTITY_PACKAGE = "org.vors.blog.comment.data";
     @Value("${spring.data.cassandra.keyspace-name}")
     public String keyspace;
     @Value("${spring.data.cassandra.port}")
     private int port;
 
-    public CassandraConfig () throws IOException {
+    public CassandraConfig() throws IOException {
         EmbeddedCassandraServerHelper.startEmbeddedCassandra("cassandra.yaml");
     }
 
@@ -88,7 +91,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     }
 
     @Override
-    protected int getPort(){
+    protected int getPort() {
         return port;
     }
 }

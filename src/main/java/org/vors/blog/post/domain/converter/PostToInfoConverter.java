@@ -1,12 +1,12 @@
-package org.vors.blog.converter;
+package org.vors.blog.post.domain.converter;
 
 import org.springframework.stereotype.Component;
-import org.vors.blog.data.BlogPost;
-import org.vors.blog.dto.PostInfo;
+import org.vors.blog.post.domain.Post;
+import org.vors.blog.post.domain.dto.PostInfo;
 
 @Component
 public class PostToInfoConverter {
-    public PostInfo convert(BlogPost post) {
+    public PostInfo convert(Post post) {
         PostInfo postData = new PostInfo();
         postData.setId(post.getId());
         postData.setTitle(post.getTitle());
