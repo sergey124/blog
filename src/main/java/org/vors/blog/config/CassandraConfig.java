@@ -23,11 +23,11 @@ import java.util.Set;
 
 @Configuration
 @EnableCassandraRepositories(basePackages = {
-        "org.vors.blog.post.repository",
-        "org.vors.blog.comment.repository"
+        "org.vors.blog.domain.post.entity.repository",
+        "org.vors.blog.domain.comment.entity.repository"
 })
 public class CassandraConfig extends AbstractCassandraConfiguration {
-    public static final String CASSANDRA_ENTITY_PACKAGE = "org.vors.blog.comment.data";
+    public static final String CASSANDRA_ENTITY_PACKAGE = "org.vors.blog.domain.comment.data";
     @Value("${spring.data.cassandra.keyspace-name}")
     public String keyspace;
     @Value("${spring.data.cassandra.port}")

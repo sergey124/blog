@@ -1,46 +1,51 @@
 package org.vors.blog.cassandra;
 
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.vors.blog.config.CassandraConfig;
-import org.vors.blog.post.domain.Post;
-import org.vors.blog.post.repository.PostRepository;
+import org.vors.blog.domain.post.entity.Post;
+import org.vors.blog.domain.post.entity.repository.PostRepository;
 
-import java.util.Optional;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@EnableAutoConfiguration(exclude = CassandraAutoConfiguration.class )
+@EnableAutoConfiguration(exclude = CassandraAutoConfiguration.class)
 @Import(CassandraConfig.class)
 public class CassandraRepoTest {
-    public static final String TITLE = "Hello world";
-    public static final String CONTENT = "# header\n Text.";
+    private static final String TITLE = "Some title";
+    private static final String CONTENT = "# header\n Text.";
+    private static final UUID ID = UUID.randomUUID();
 
     @Autowired
     private PostRepository postRepository;
 
     @Test
-    public void test() {
+    public void fetchGivenPostFromStorage() {
+        createAndStorePost();
+
+        Post foundPost = postRepository.findById(ID)
+                .orElseThrow(IllegalStateException::new);
+
+        Assert.assertEquals(ID, foundPost.getId());
+        Assert.assertEquals(TITLE, foundPost.getTitle());
+        Assert.assertEquals(CONTENT, foundPost.getContent());
+    }
+
+    private void createAndStorePost() {
         Post post = new Post();
-        post.setId(UUID.randomUUID());
-        post.setTitle("Hello world");
+
+        post.setId(ID);
+        post.setTitle(TITLE);
         post.setContent(CONTENT);
 
         postRepository.save(post);
-
-        Optional<Post> foundPostOpt = postRepository.findByTitle(TITLE);
-
-        Assert.assertTrue(foundPostOpt.isPresent());
-        Post foundPost = foundPostOpt.get();
-        Assert.assertEquals(TITLE, foundPost.getTitle());
-        Assert.assertEquals(CONTENT, foundPost.getContent());
     }
 }
